@@ -8,24 +8,21 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cl.ucn.disc.dsm.cgomez.news;
-
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
+package cl.ucn.disc.dsm.cgomez.news.services;
 
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
-public class MainActivity extends AppCompatActivity {
-//ffff
+/**
+ * The Contracts from CU/UH
+ *
+ * @author Carlos Gomez Pino
+ */
 
-    public List<News> noticia;
-    @Override
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+public interface Contratos {
+
+    List<News> retrieveNews(Integer size);
+    void save(News news);
 }

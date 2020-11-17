@@ -8,24 +8,43 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cl.ucn.disc.dsm.cgomez.news;
+package cl.ucn.disc.dsm.cgomez.news.services;
 
-import android.os.Bundle;
+import com.github.javafaker.Faker;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
-public class MainActivity extends AppCompatActivity {
-//ffff
+/**
+ *
+ * @author Carlos Gomez Pino
+ */
+public class TestContratos {
+    private  static final Logger log = LoggerFactory.getLogger(TestContratos.class);
 
-    public List<News> noticia;
-    @Override
+    @Test
+    public void testRetriverNews(){
+        log.debug("Testing ..");
+        Contratos contrato=new ContratosImpl();
+        List<News> news=contrato.retrieveNews(5);
+        Assertions.assertNotNull(news,"List was null :(");
+        Assertions.assertTrue(news.size()!=0, "Emppty list :(");
+        Assertions.assertTrue(news.size()==5, "List size !=5 :(");
+        log.debug("Done");
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    }
+    @Test
+    public void testFaker(){
+        Faker faker=Faker.instance();
+        for(int i=0;i<5;i++){
+            log.debug("Name: {}",faker.name().fullName());
+            System.out.println("Name: "+faker.name().fullName());
+        }
     }
 }

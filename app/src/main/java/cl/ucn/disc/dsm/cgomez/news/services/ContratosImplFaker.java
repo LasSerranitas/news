@@ -8,24 +8,47 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cl.ucn.disc.dsm.cgomez.news;
+package cl.ucn.disc.dsm.cgomez.news.services;
 
-import android.os.Bundle;
+import com.github.javafaker.Faker;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
-public class MainActivity extends AppCompatActivity {
-//ffff
+public class ContratosImplFaker implements Contratos {
+    private static final Logger log = LoggerFactory.getLogger(Contratos.class);
+    private List<News> list;
 
-    public List<News> noticia;
+    public ContratosImplFaker() {
+        final Faker faker = Faker.instance();
+        for (int i = 0; i < 5; i++) {
+            this.list.add(new News(
+                    Integer.toUnsignedLong(i),
+                    faker.book().title(),
+                    faker.name().username(),
+                    faker.name().fullName(),
+                    faker.internet().url(),
+                    faker.internet().avatar(),
+                    faker.harryPotter().quote(),
+                    faker.lorem().paragraph(3),
+                    ZonedDateTime.now(ZoneId.of("-3"))
+            ));
+        }
+    }
+
     @Override
+    public List<News> retrieveNews(Integer size) {
+        return list.subList(list.size()-size,list.size());
+    }
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    @Override
+    public void save(News news) {
+        this.list.add(news);
     }
 }
