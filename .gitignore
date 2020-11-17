@@ -20,7 +20,9 @@
 /.idea/gradle.xml
 /.idea/.name
 /.idea/kotlinCodeInsigthSettings.xml
-
+/.idea/render.experimental.xml
+/.idea/jarRepositories.xml
+/.idea/compiler.xml
 
 # Trashy
 
