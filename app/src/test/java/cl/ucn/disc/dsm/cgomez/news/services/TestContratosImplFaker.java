@@ -10,22 +10,55 @@
 
 package cl.ucn.disc.dsm.cgomez.news.services;
 
+import com.github.javafaker.Faker;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
 public class TestContratosImplFaker {
-    private static final Logger log = LoggerFactory.getLogger(Contratos.class);
-    @Test
-    public void testRetrieveNews(){
-        Contratos contratos=new ContratosImplFaker();
-        List<News> news=contratos.retrieveNews(5);
-        Assertions.assertNotNull(news, "La lista no existe");
+    private static final Logger log = LoggerFactory.getLogger(TestContratosImplFaker.class);
 
+    @Test
+    public void testRetrieveNews() {
+        Contratos contratos = new ContratosImplFaker();
+        List<News> news = contratos.retrieveNews(5);
+        Assertions.assertNotNull(news, "La lista no existe");
+        Assertions.assertFalse(news.isEmpty(), "Lista vacia");
+        Assertions.assertEquals(5, news.size(), "La lista no tiene 5 elementos");
+        for (News n : news) {
+            log.debug("News: {}", n);
+        }
+        Assertions.assertEquals(0, contratos.retrieveNews(0).size(), "Lista distinta de 0");
+        Assertions.assertEquals(3, contratos.retrieveNews(3).size(), "Lista distinta de 3");
+        Assertions.assertTrue(contratos.retrieveNews(10).size() <= 10, "Lista distinta de 10");
+        log.debug("Done");
+    }
+    public void testSaveNews(){
+        ContratosImplFaker nuevo=new ContratosImplFaker();
+        final Faker faker = Faker.instance();
+        int tamano=nuevo.retrieveNews(0).size();
+        News notica=new News(
+                Integer.toUnsignedLong(tamano+1),
+                faker.book().title(),
+                faker.name().username(),
+                faker.name().fullName(),
+                faker.internet().url(),
+                faker.internet().avatar(),
+                faker.harryPotter().quote(),
+                faker.lorem().paragraph(3),
+                ZonedDateTime.now(ZoneId.of("-3"))
+        );
+        nuevo.save(notica);
+        if(tamano+1==nuevo.retrieveNews(0).size()){
+            log.debug("No Se pudo agregar");
+        }
     }
 }

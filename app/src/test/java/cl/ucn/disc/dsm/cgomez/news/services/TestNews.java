@@ -10,41 +10,29 @@
 
 package cl.ucn.disc.dsm.cgomez.news.services;
 
-import com.github.javafaker.Faker;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
-
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
-/**
- *
- * @author Carlos Gomez Pino
- */
-public class TestContratos {
-    private  static final Logger log = LoggerFactory.getLogger(TestContratos.class);
+public class TestNews {
 
-    @Test
-    public void testRetriverNews(){
-        log.debug("Testing ..");
-        Contratos contrato=new ContratosImplFaker();
-        List<News> news=contrato.retrieveNews(5);
-        Assertions.assertNotNull(news,"List was null :(");
-        Assertions.assertTrue(news.size()!=0, "Emppty list :(");
-        Assertions.assertTrue(news.size()==5, "List size !=5 :(");
-        log.debug("Done");
-
+    public TestNews (){
     }
-    @Test
-    public void testFaker(){
-        Faker faker=Faker.instance();
-        for(int i=0;i<5;i++){
-            log.debug("Name: {}",faker.name().fullName());
-            System.out.println("Name: "+faker.name().fullName());
-        }
+    private boolean VerificarDatos(News news){
+        if(news.getId()<0)
+            return false;
+        if(news.getTitle()=="")
+            return false;
+        if(news.getSource()=="")
+            return false;
+        if(news.getAuthor()=="")
+            return false;
+        if(news.getUrl()=="")
+            return false;
+        if(news.getUrlImage()=="")
+            return false;
+        if(news.getDescripcion()=="")
+            news.setDescripcion("No se proporciono una descripcion");
+        if(news.getContent()=="")
+            news.setContent("No se agrego contenido");
+        return true;
     }
 }
