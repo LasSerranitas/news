@@ -20,42 +20,43 @@ public final class News {
     /**
      * Unique id
      */
-    private long id;
+    private final Long id;
     /**
      * The Title
      * Restictions: not null, size > 2
      */
-    private String title;
+    private final String title;
     /**
      * The Source
      */
-    private String source;
+    private final String source;
     /**
      * The Author
      */
-    private String author;
+    private final String author;
     /**
      * The URL
      */
-    private String url;
+    private final String url;
     /**
      * The URL of image
      */
-    private String urlImage;
+    private final String urlImage;
     /**
      *  The Description
      */
-    private String content;
+    private final String content;
+
+    public ZonedDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
     /**
      * The Date of publish
      */
-    private ZonedDateTime publishedAt;
-    private String descripcion;
+    private final ZonedDateTime publishedAt;
+    private final String descripcion;
 
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -72,7 +73,7 @@ public final class News {
      * @param descripcion
      * @param publishedAt
      */
-    public News(long id, String title, String source, String author, String url, String urlImage, String content, String descripcion, ZonedDateTime publishedAt) {
+    public News(Long id, String title, String source, String author, String url, String urlImage, String content, String descripcion, ZonedDateTime publishedAt) {
         this.id = id;
         this.title = title;
         this.source = source;
@@ -88,7 +89,7 @@ public final class News {
      *
      * @return the ID
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -136,39 +137,7 @@ public final class News {
         return content;
     }
 
-    public ZonedDateTime getPublishedAt() {
-        return publishedAt;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setPublishedAt(ZonedDateTime publishedAt) {
-        this.publishedAt = publishedAt;
-    }
 }
