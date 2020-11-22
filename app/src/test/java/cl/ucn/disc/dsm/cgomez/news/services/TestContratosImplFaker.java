@@ -23,7 +23,7 @@ import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 
-public class TestContratosImplFaker {
+public final class TestContratosImplFaker {
     private static final Logger log = LoggerFactory.getLogger(TestContratosImplFaker.class);
 
     @Test
@@ -46,7 +46,7 @@ public class TestContratosImplFaker {
         final Faker faker = Faker.instance();
         int tamano=nuevo.retrieveNews(0).size();
         News notica=new News(
-                Integer.toUnsignedLong(tamano+1),
+
                 faker.book().title(),
                 faker.name().username(),
                 faker.name().fullName(),

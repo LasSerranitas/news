@@ -31,7 +31,7 @@ android {
 dependencies {
 
     // JUnit 5
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -50,6 +50,13 @@ dependencies {
     // Java Faker!
 
     implementation 'com.github.javafaker:javafaker:1.0.2'
+
+    // Apache commons long
+    implementation 'org.apache.commons:commons-lang3:3:11'
+
+    implementation "net.openhft:zero-allocation-hashing:0.12"
+
+    
 
 
 }

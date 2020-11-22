@@ -10,21 +10,25 @@
 
 package cl.ucn.disc.dsm.cgomez.news.model;
 
+import net.openhft.hashing.LongHashFunction;
+
 import java.time.ZonedDateTime;
 
+import cl.ucn.disc.dsm.cgomez.news.utils.Validation;
+
 /**
- *
  * @author Carlos Gomez Pino
  */
 public final class News {
     /**
      * Unique id
      */
-    private final Long id;
+
     /**
      * The Title
      * Restictions: not null, size > 2
      */
+    private final Long id;
     private final String title;
     /**
      * The Source
@@ -43,7 +47,7 @@ public final class News {
      */
     private final String urlImage;
     /**
-     *  The Description
+     * The Description
      */
     private final String content;
 
@@ -62,8 +66,11 @@ public final class News {
         return descripcion;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     /**
-     *  @param id
      * @param title
      * @param source
      * @param author
@@ -73,15 +80,21 @@ public final class News {
      * @param descripcion
      * @param publishedAt
      */
-    public News(Long id, String title, String source, String author, String url, String urlImage, String content, String descripcion, ZonedDateTime publishedAt) {
-        this.id = id;
+    public News(String title, String source, String author, String url, String urlImage, String content, String descripcion, ZonedDateTime publishedAt) {
+
+        Validation.minSize(title, 2, "title");
         this.title = title;
+        Validation.minSize(source, 2, "source");
         this.source = source;
+        Validation.minSize(author, 2, "author");
         this.author = author;
+        this.id = LongHashFunction.xx().hashChars(title + "|" + source + "|" + author);
         this.url = url;
         this.urlImage = urlImage;
+        Validation.notNull(content, "content");
         this.content = content;
-        this.descripcion=descripcion;
+        this.descripcion = descripcion;
+        Validation.notNull(publishedAt, "publishedAt");
         this.publishedAt = publishedAt;
     }
 
@@ -89,12 +102,9 @@ public final class News {
      *
      * @return the ID
      */
-    public Long getId() {
-        return id;
-    }
+
 
     /**
-     *
      * @return the Title
      */
     public String getTitle() {
@@ -102,7 +112,6 @@ public final class News {
     }
 
     /**
-     *
      * @return the Source
      */
     public String getSource() {
@@ -110,7 +119,6 @@ public final class News {
     }
 
     /**
-     *
      * @return the Author
      */
     public String getAuthor() {
@@ -118,7 +126,6 @@ public final class News {
     }
 
     /**
-     *
      * @return the Url
      */
     public String getUrl() {
@@ -126,7 +133,6 @@ public final class News {
     }
 
     /**
-     *
      * @return the UrlImage
      */
     public String getUrlImage() {
@@ -136,8 +142,6 @@ public final class News {
     public String getContent() {
         return content;
     }
-
-
 
 
 }

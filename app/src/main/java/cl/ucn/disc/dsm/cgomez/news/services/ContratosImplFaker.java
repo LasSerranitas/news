@@ -29,14 +29,14 @@ public class ContratosImplFaker implements Contratos {
         final Faker faker = Faker.instance();
         for (int i = 0; i < 5; i++) {
             this.list.add(new News(
-                    Integer.toUnsignedLong(i),
+
                     faker.book().title(),
                     faker.name().username(),
                     faker.name().fullName(),
                     faker.internet().url(),
                     faker.internet().avatar(),
-                    faker.harryPotter().quote(),
                     faker.lorem().paragraph(3),
+                    faker.harryPotter().quote(),
                     ZonedDateTime.now(ZoneId.of("-3"))
             ));
         }

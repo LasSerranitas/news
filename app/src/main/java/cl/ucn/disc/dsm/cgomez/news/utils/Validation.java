@@ -8,31 +8,34 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cl.ucn.disc.dsm.cgomez.news.services;
+package cl.ucn.disc.dsm.cgomez.news.utils;
 
-import cl.ucn.disc.dsm.cgomez.news.model.News;
-
-public class TestNews {
-
-    public TestNews() {
+/**
+ *
+ */
+public final class Validation {
+    /**
+     * @param value
+     * @param minSize
+     * @param message
+     */
+    public static void minSize(String value, int minSize, String message) {
+        // Nullity
+        notNull(value, message);
+        if (value.length() < minSize) {
+            throw new IllegalArgumentException("Argument null or wrong size -->" + message);
+        }
     }
 
-    private boolean VerificarDatos(News news) {
-
-        if (news.getTitle() == "")
-            return false;
-        if (news.getSource() == "")
-            return false;
-        if (news.getAuthor() == "")
-            return false;
-        if (news.getUrl() == "")
-            return false;
-        if (news.getUrlImage() == "")
-            return false;
-        if (news.getDescripcion() == "")
-            return false;
-        if (news.getContent() == "")
-            return false;
-        return true;
+    /**
+     * Check nullity
+     *
+     * @param value
+     * @param message
+     */
+    public static void notNull(Object value, String message) {
+        if (value == null) {
+            throw new IllegalArgumentException("Argument null or wrong size-->" + message);
+        }
     }
 }
