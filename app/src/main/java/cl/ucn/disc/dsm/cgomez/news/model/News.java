@@ -51,6 +51,7 @@ public final class News {
      */
     private final String content;
 
+
     public ZonedDateTime getPublishedAt() {
         return publishedAt;
     }

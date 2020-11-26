@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.0"
+        classpath 'com.android.tools.build:gradle:4.1.1'
         //Plugin to find the lastet libraries versions
         classpath "com.github.ben-manes:gradle-versions-plugin:0.34.0"
 
@@ -20,6 +20,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
 
