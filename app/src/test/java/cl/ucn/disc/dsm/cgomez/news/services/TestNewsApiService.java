@@ -10,39 +10,43 @@
 
 package cl.ucn.disc.dsm.cgomez.news.services;
 
+import com.kwabenaberko.newsapilib.models.Article;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
+import java.io.IOException;
+import java.util.List;
 
+public class TestNewsApiService {
+    private static final Logger log = LoggerFactory.getLogger(TestNewsApiService.class);
 
-import cl.ucn.disc.dsm.cgomez.news.model.News;
-
-public class TestNews {
-    private static final Logger log = LoggerFactory.getLogger(TestNews.class);
 
     @Test
-    public void testContructor(){
-        log.debug("Testing ..");
-        News news =new News(
-                "The Title",
-                "The Source",
-                "The Author",
-                "The URL",
-                "The URL Image",
-                "The Description",
-                "The Content",
-                ZonedDateTime.now(ZoneId.of("-3"))
-        );
-        log.debug("The id: {}.",news.getId(),"Wrong id !");
-        Assertions.assertEquals(1182003507361219134L,news.getId(),"Wrong id !");
-        log.debug("Title null ..");
-        // TODO Terminar todos los erroreds
-    }
-    public TestNews() {
-    }
+    public void wrongApi() throws IOException {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            NewsApiService newsApiService = new NewsApiService(null);
+        });
+        log.debug("Wrong key ..");
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            NewsApiService newsApiService = new NewsApiService("This is my wrong key");
+            List<Article> articles = newsApiService.getTopHeadlines("general", 10);
+            log.debug("Article: {}.", articles);
+        });
 
+        log.debug("Good key ..");
+        {
+            NewsApiService newsApiService = new NewsApiService("<USE REAL APIKEY>");
+            List<Article> articles = newsApiService.getTopHeadlines("general", 10);
+            log.debug("Article: {}", articles);
+            log.debug("Article size: {}", articles.size());
+        }
+        {
+
+        }
+        log.debug(".. Done.");
+    }
 }

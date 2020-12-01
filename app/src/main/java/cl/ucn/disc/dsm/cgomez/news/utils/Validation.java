@@ -34,6 +34,7 @@ public final class Validation {
      * @param message
      */
     public static void notNull(Object value, String message) {
+
         if (value == null) {
             throw new IllegalArgumentException("Argument null or wrong size-->" + message);
         }

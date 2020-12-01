@@ -36,13 +36,15 @@ public class ContratosImplNewsApi implements Contratos {
     private static final Logger log = LoggerFactory.getLogger(ContratosImplNewsApi.class);
     private final NewsApiService newsApiService;
 
-    public ContratosImplNewsApi(String apiKey) {
+    public ContratosImplNewsApi(final String theApiKey) {
+        Validation.minSize(theApiKey, 10, "ApiKey !!");
+        this.newsApiService = new NewsApiService(theApiKey);
     }
 
     @Override
     public List<News> retrieveNews(Integer size) {
         try {
-            List<Article> articles = this.newsApiService.getTopHeadLines("general", size);
+            List<Article> articles = newsApiService.getTopHeadlines("tecnhonlogy", size);
             List<News> news = new ArrayList<>();
             for (Article article : articles) {
                 News n = article2news(article);
@@ -53,12 +55,13 @@ public class ContratosImplNewsApi implements Contratos {
             return news;
         } catch (IOException e) {
             log.error("Error", e);
-            throw new RuntimeException(e);
+            return null;
         }
-        return null;
+
     }
 
     private static News article2news(Article article) {
+
         log.debug("Article: {}.", ToStringBuilder.reflectionToString(article, ToStringStyle.MULTI_LINE_STYLE));
         ZonedDateTime publishedAt = ZonedDateTime.parse(article.getPublishedAt()).withZoneSameInstant(ZoneId.of("-3"));
         if (article.getAuthor() == null) {
@@ -87,6 +90,6 @@ public class ContratosImplNewsApi implements Contratos {
     @Override
     public void save(News news) {
         throw new NotImplementedException("Can't save news in NewsAPI");
-        this.newsApiService = new NewsApiService(apikey);
+
     }
 }

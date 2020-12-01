@@ -12,7 +12,7 @@ package cl.ucn.disc.dsm.cgomez.news.model;
 
 import net.openhft.hashing.LongHashFunction;
 
-import java.time.ZonedDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import cl.ucn.disc.dsm.cgomez.news.utils.Validation;
 
