@@ -17,8 +17,21 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            cruncPngs false
+            versionNameSuffix ".d"
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            cruncPngs true
+            versionNameSuffix ".r"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,10 +39,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
 }
 
 dependencies {
-
+    def acraVersion = '5.7.0'
     // JUnit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -64,7 +79,26 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
 
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 
+    // Acra implementation
+    // Http
+    implementation "ch.acra:acra-http:$acraVersion"
 
+    // Email
+    implementation "ch.acra:acra-mail:$acraVersion"
+
+    // Custom
+    implementation "ch.acra:acra-core:$acraVersion"
+
+    // Dialog
+    implementation "ch.acra:acra-dialog:$acraVersion"
+
+    // Notification
+    implementation "ch.acra:acra-notification:$acraVersion"
+
+    // Toast
+    implementation "ch.acra:acra-toast:$acraVersion"
 
 }
