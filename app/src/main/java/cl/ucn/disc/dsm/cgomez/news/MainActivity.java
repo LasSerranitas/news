@@ -10,22 +10,64 @@
 
 package cl.ucn.disc.dsm.cgomez.news;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
+import cl.ucn.disc.dsm.cgomez.news.services.Contratos;
+import cl.ucn.disc.dsm.cgomez.news.services.ContratosImplNewsApi;
 
 public class MainActivity extends AppCompatActivity {
-//ffff
+    /**
+     * logger.
+     */
+    private static final Logger log=LoggerFactory.getLogger(MainActivity.class);
 
-    public List<News> noticia;
+    /**
+     * List View.
+     */
+    protected ListView listView;
+
+    /**
+     * OnCreate.
+     *
+     * @param savedInstanceState used to reload the app.
+     */
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        log.debug("onCreate ..");
         setContentView(R.layout.activity_main);
+
+        this.listView = findViewById(R.id.am_lv_news);
+        // Get the news in the background thread
+        AsyncTask.execute(() ->{
+
+            // Using the contracts to get the news
+            Contratos contratos=new ContratosImplNewsApi("d18ef52166a148a5881cf45e288b1762");
+
+            // Get the News from NewsApi from internet
+            List<News> listNews=contratos.retrieveNews(30);
+
+            // Build the simple adapter to show the list of news
+            ArrayAdapter<String> adapter=new ArrayAdapter(
+              this,
+              android.R.layout.simple_list_item_1,
+              listNews
+            );
+
+            // Set the adapter
+            runOnUiThread(() -> this.listView.setAdapter(adapter));
+
+        });
     }
 }

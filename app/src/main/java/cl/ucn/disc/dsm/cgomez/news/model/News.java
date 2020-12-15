@@ -10,6 +10,8 @@
 
 package cl.ucn.disc.dsm.cgomez.news.model;
 
+import androidx.annotation.NonNull;
+
 import net.openhft.hashing.LongHashFunction;
 
 import org.threeten.bp.ZonedDateTime;
@@ -144,5 +146,9 @@ public final class News {
         return content;
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return this.title;
+    }
 }

@@ -35,7 +35,7 @@ buildscript {
 
 allprojects {
 
-    ext.buildTimestance = BUILD_TIMESTAMP
+    ext.buildTimestamp = BUILD_TIMESTAMP
     ext.buildVersion = BUILD_VERSION
 
     // Use the temp directory to buil temporals

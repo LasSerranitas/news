@@ -15,8 +15,6 @@ import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
@@ -28,7 +26,7 @@ public class ContratosImplFaker implements Contratos {
     public ContratosImplFaker() {
         final Faker faker = Faker.instance();
         for (int i = 0; i < 5; i++) {
-            this.list.add(new News(
+            /*this.list.add(new News(
 
                     faker.book().title(),
                     faker.name().username(),
@@ -37,8 +35,8 @@ public class ContratosImplFaker implements Contratos {
                     faker.internet().avatar(),
                     faker.lorem().paragraph(3),
                     faker.harryPotter().quote(),
-                    ZonedDateTime.now(ZoneId.of("-3"))
-            ));
+                    //ZonedDateTime.now(ZoneId.of("-3"))
+            ));*/
         }
     }
 

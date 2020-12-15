@@ -22,7 +22,7 @@ android {
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled false
-            cruncPngs false
+            crunchPngs false
             versionNameSuffix ".d"
         }
         release {
@@ -30,7 +30,7 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
-            cruncPngs true
+            crunchPngs true
             versionNameSuffix ".r"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -38,6 +38,12 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    android.applicationVariants.all {variant ->
+        variant.outputs.each {output ->
+            output.versionCodeOverride=project.ext.buildTimestamp
+            output.versionNameOverride=project.ext.buildVersion +(variant.name=="debug" ? ".d" : ".r")
+        }
     }
 
 
@@ -67,7 +73,7 @@ dependencies {
     implementation 'com.github.javafaker:javafaker:1.0.2'
 
     // Apache commons long
-    implementation 'org.apache.commons:commons-lang3:3:11'
+    implementation 'org.apache.commons:commons-lang3:3.11'
 
     implementation "net.openhft:zero-allocation-hashing:0.12"
 

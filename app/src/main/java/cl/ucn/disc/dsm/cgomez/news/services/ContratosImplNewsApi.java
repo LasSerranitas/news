@@ -47,10 +47,7 @@ public class ContratosImplNewsApi implements Contratos {
             List<Article> articles = newsApiService.getTopHeadlines("tecnhonlogy", size);
             List<News> news = new ArrayList<>();
             for (Article article : articles) {
-                News n = article2news(article);
-                if (n != null) {
-                    news.add(n);
-                }
+                    news.add(toNews(article));
             }
             return news;
         } catch (IOException e) {
@@ -60,18 +57,18 @@ public class ContratosImplNewsApi implements Contratos {
 
     }
 
-    private static News article2news(Article article) {
+    private static News toNews(Article article) {
 
-        log.debug("Article: {}.", ToStringBuilder.reflectionToString(article, ToStringStyle.MULTI_LINE_STYLE));
-        ZonedDateTime publishedAt = ZonedDateTime.parse(article.getPublishedAt()).withZoneSameInstant(ZoneId.of("-3"));
-        if (article.getAuthor() == null) {
-            log.debug("Article without author !!");
-            return null;
+        Validation.notNull(article,"Article null");
+        boolean needfix=false;
+        if(article.getAuthor()==null){
+            article.setAuthor("No Author");
+            needfix=true;
         }
-        if (article.getDescription() == null) {
-            log.warn("Article without description !!");
-            return null;
+        if(needfix){
+            log.warn("Article with invalid restrictions: {}", ToStringBuilder.reflectionToString(article,ToStringStyle.MULTI_LINE_STYLE));
         }
+        ZonedDateTime publishedAt=ZonedDateTime.parse(article.getPublishedAt()).withZoneSameInstant(ZoneId.of("-3"));
 
         return new News(
                 article.getTitle(),
@@ -88,7 +85,7 @@ public class ContratosImplNewsApi implements Contratos {
 
 
     @Override
-    public void save(News news) {
+    public void save(final News news) {
         throw new NotImplementedException("Can't save news in NewsAPI");
 
     }
