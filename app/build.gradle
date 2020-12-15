@@ -66,7 +66,8 @@ dependencies {
 
     // SLF4J
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'com.github.tony19:logback-android:2.0.0'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.30'
 
     // Java Faker!
 
@@ -106,5 +107,8 @@ dependencies {
 
     // Toast
     implementation "ch.acra:acra-toast:$acraVersion"
+
+    implementation 'com.mikepenz:fastadapter:3.3.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
 }

@@ -20,11 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import cl.ucn.disc.dsm.cgomez.news.model.News;
 import cl.ucn.disc.dsm.cgomez.news.utils.Validation;
@@ -41,34 +44,42 @@ public class ContratosImplNewsApi implements Contratos {
         this.newsApiService = new NewsApiService(theApiKey);
     }
 
+    private static <T> Predicate<T> distinByKey(Function<? super T,? >
+                                                keyExtractor){
+        Map<Object,Boolean> seen=new ConcurrentHashMap<>();
+        return t->seen.putIfAbsent(keyExtractor.apply(t),Boolean.TRUE)==null;
+    }
+
     @Override
     public List<News> retrieveNews(Integer size) {
         try {
-            List<Article> articles = newsApiService.getTopHeadlines("tecnhonlogy", size);
+            List<Article> articles = newsApiService.getTopHeadlines("technology", size);
             List<News> news = new ArrayList<>();
             for (Article article : articles) {
-                    news.add(toNews(article));
+                news.add(toNews(article));
             }
-            return news;
-        } catch (IOException e) {
-            log.error("Error", e);
-            return null;
+            return news.stream()
+                    .filter(distinByKey(News::getId)).sorted((k1, k2) -> k2
+                            .getPublishedAt().compareTo(k1.getPublishedAt())).collect(
+                            Collectors.toList());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
 
     }
 
     private static News toNews(Article article) {
 
-        Validation.notNull(article,"Article null");
-        boolean needfix=false;
-        if(article.getAuthor()==null){
+        Validation.notNull(article, "Article null");
+        boolean needfix = false;
+        if (article.getAuthor() == null) {
             article.setAuthor("No Author");
-            needfix=true;
+            needfix = true;
         }
-        if(needfix){
-            log.warn("Article with invalid restrictions: {}", ToStringBuilder.reflectionToString(article,ToStringStyle.MULTI_LINE_STYLE));
+        if (needfix) {
+            log.warn("Article with invalid restrictions: {}", ToStringBuilder.reflectionToString(article, ToStringStyle.MULTI_LINE_STYLE));
         }
-        ZonedDateTime publishedAt=ZonedDateTime.parse(article.getPublishedAt()).withZoneSameInstant(ZoneId.of("-3"));
+        ZonedDateTime publishedAt = ZonedDateTime.parse(article.getPublishedAt()).withZoneSameInstant(ZoneId.of("-3"));
 
         return new News(
                 article.getTitle(),

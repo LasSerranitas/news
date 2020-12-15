@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         log.debug("onCreate ..");
         setContentView(R.layout.activity_main);
 
-        this.listView = findViewById(R.id.am_lv_news);
+        this.listView = findViewById(R.id.am_rv_news);
         // Get the news in the background thread
         AsyncTask.execute(() ->{
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             // Set the adapter
-            runOnUiThread(() -> this.listView.setAdapter(adapter));
+            runOnUiThread(() -> MainActivity.this.listView.setAdapter(adapter));
 
         });
     }
